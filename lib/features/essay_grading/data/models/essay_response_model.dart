@@ -1,7 +1,5 @@
 import '../../domain/entities/essay_result.dart';
 
-/// Data model for the AI grading response
-/// Handles JSON parsing and serialization
 class EssayResponseModel extends EssayResult {
   const EssayResponseModel({
     required super.score,
@@ -18,9 +16,7 @@ class EssayResponseModel extends EssayResult {
     super.analysisTimeSeconds,
   });
 
-  /// Parse from the AI response JSON
   factory EssayResponseModel.fromJson(Map<String, dynamic> json) {
-    // Parse vocabulary suggestions
     final suggestionsJson = json['vocab_suggestions'] as List<dynamic>? ?? [];
     final suggestions = suggestionsJson
         .map(
@@ -66,7 +62,6 @@ class EssayResponseModel extends EssayResult {
     );
   }
 
-  /// Serialize to JSON (for local caching)
   Map<String, dynamic> toJson() {
     return {
       'score': score,
@@ -88,7 +83,6 @@ class EssayResponseModel extends EssayResult {
     };
   }
 
-  /// Create a copy with updated analysis time
   EssayResponseModel copyWithTime(double seconds) {
     return EssayResponseModel(
       score: score,

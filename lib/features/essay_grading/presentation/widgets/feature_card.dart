@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 
-/// Feature card shown in "What we analyze" section
-/// Displays icon, title, and description
 class FeatureCard extends StatelessWidget {
   final IconData icon;
   final Color iconBgColor;
@@ -37,7 +35,6 @@ class FeatureCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Icon circle
           Container(
             width: 48,
             height: 48,
@@ -53,7 +50,6 @@ class FeatureCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // Title
           Text(
             title,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -63,7 +59,6 @@ class FeatureCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
 
-          // Description
           Text(
             description,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

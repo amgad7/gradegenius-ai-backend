@@ -6,8 +6,6 @@ import '../cubit/essay_cubit.dart';
 import '../cubit/essay_state.dart';
 import '../widgets/animated_progress_bar.dart';
 
-/// Analyzing screen with pulsing animation and progress indicators
-/// Matches the "AI ACTIVE" mockup design
 class AnalyzingScreen extends StatefulWidget {
   const AnalyzingScreen({super.key});
 
@@ -58,7 +56,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
                 children: [
                   const Spacer(flex: 2),
 
-                  // "AI ACTIVE" badge
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -84,7 +81,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
 
                   const SizedBox(height: 40),
 
-                  // Pulsing circles + icon
                   ScaleTransition(
                     scale: _pulseAnimation,
                     child: SizedBox(
@@ -93,7 +89,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          // Outer ring
                           Container(
                             width: 200,
                             height: 200,
@@ -107,7 +102,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
                               ),
                             ),
                           ),
-                          // Middle ring
                           Container(
                             width: 160,
                             height: 160,
@@ -121,7 +115,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
                               ),
                             ),
                           ),
-                          // Inner ring
                           Container(
                             width: 120,
                             height: 120,
@@ -130,7 +123,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
                               color: AppColors.primaryPurple.withOpacity(0.08),
                             ),
                           ),
-                          // Center icon
                           Container(
                             width: 80,
                             height: 80,
@@ -159,7 +151,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
 
                   const SizedBox(height: 40),
 
-                  // Title
                   Text(
                     AppStrings.analyzingTitle,
                     style: Theme.of(
@@ -169,7 +160,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
 
                   const SizedBox(height: 12),
 
-                  // Subtitle
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
@@ -181,7 +171,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
 
                   const SizedBox(height: 32),
 
-                  // Progress bar
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 48),
                     child: AnimatedProgressBar(progress: progress),
@@ -197,7 +186,6 @@ class _AnalyzingScreenState extends State<AnalyzingScreen>
 
                   const SizedBox(height: 40),
 
-                  // Status chips
                   Wrap(
                     spacing: 12,
                     runSpacing: 12,

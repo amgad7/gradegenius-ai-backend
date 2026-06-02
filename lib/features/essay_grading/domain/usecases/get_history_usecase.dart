@@ -4,7 +4,6 @@ import '../../../../core/usecases/usecase.dart';
 import '../entities/essay_history_item.dart';
 import '../repositories/essay_repository.dart';
 
-/// Use case: Retrieve essay grading history from local storage
 class GetHistoryUseCase extends UseCase<List<EssayHistoryItem>, NoParams> {
   final EssayRepository repository;
 

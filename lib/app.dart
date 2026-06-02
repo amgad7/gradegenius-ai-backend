@@ -6,7 +6,6 @@ import 'core/theme/app_theme.dart';
 import 'features/essay_grading/presentation/navigation/app_router.dart';
 import 'features/essay_grading/presentation/cubit/essay_cubit.dart';
 
-/// Root MaterialApp widget
 class GradeGeniusApp extends StatelessWidget {
   const GradeGeniusApp({super.key});
 

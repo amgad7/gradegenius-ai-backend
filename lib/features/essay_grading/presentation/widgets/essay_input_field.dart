@@ -3,8 +3,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/input_validator.dart';
 
-/// Multi-line text input for essay submission
-/// Features a word counter badge and styled container
 class EssayInputField extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
@@ -54,7 +52,6 @@ class EssayInputField extends StatelessWidget {
             ),
           ),
 
-          // Word count badge
           Positioned(
             right: 12,
             bottom: 12,

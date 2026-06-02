@@ -4,19 +4,13 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/essay_history_model.dart';
 
-/// Local data source for caching essay history
-/// Uses SharedPreferences for persistent storage
 abstract class EssayLocalDataSource {
-  /// Save a grading result to history
   Future<void> cacheResult(EssayHistoryModel item);
 
-  /// Retrieve all cached history items
   Future<List<EssayHistoryModel>> getHistory();
 
-  /// Delete a specific history item
   Future<void> deleteHistoryItem(String id);
 
-  /// Clear all history
   Future<void> clearHistory();
 }
 

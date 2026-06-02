@@ -3,8 +3,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 
-/// Large circular score indicator
-/// Displays the final score with gradient fill and badge
 class ScoreCircle extends StatelessWidget {
   final double score;
   final double maxScore;
@@ -20,7 +18,6 @@ class ScoreCircle extends StatelessWidget {
         Stack(
           alignment: Alignment.center,
           children: [
-            // Outer glow
             Container(
               width: 200,
               height: 200,
@@ -37,7 +34,6 @@ class ScoreCircle extends StatelessWidget {
               ),
             ),
 
-            // Circular progress indicator
             CircularPercentIndicator(
               radius: 80,
               lineWidth: 10,
@@ -111,7 +107,6 @@ class ScoreCircle extends StatelessWidget {
               ),
             ),
 
-            // Score badge
             Positioned(
               right: 10,
               top: 30,

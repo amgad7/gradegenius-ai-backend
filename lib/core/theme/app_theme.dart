@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/app_colors.dart';
 
-/// App-wide theme configuration
-/// Uses Google Fonts (Inter) for a modern, premium feel
 class AppTheme {
   AppTheme._();
 
@@ -21,7 +19,6 @@ class AppTheme {
         error: AppColors.errorRed,
       ),
 
-      // Typography
       textTheme: GoogleFonts.interTextTheme().copyWith(
         displayLarge: GoogleFonts.inter(
           fontSize: 32,
@@ -86,7 +83,6 @@ class AppTheme {
         ),
       ),
 
-      // AppBar
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
         elevation: 0,
@@ -100,7 +96,6 @@ class AppTheme {
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
 
-      // Cards
       cardTheme: CardThemeData(
         color: AppColors.cardBackground,
         elevation: 0,
@@ -110,7 +105,6 @@ class AppTheme {
         margin: const EdgeInsets.symmetric(vertical: 8),
       ),
 
-      // Elevated Buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryPurple,
@@ -127,7 +121,6 @@ class AppTheme {
         ),
       ),
 
-      // Input fields
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.inputBackground,
@@ -153,7 +146,6 @@ class AppTheme {
         contentPadding: const EdgeInsets.all(20),
       ),
 
-      // Bottom Navigation
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.cardBackground,
         selectedItemColor: AppColors.primaryPurple,
@@ -162,7 +154,6 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
 
-      // Dividers
       dividerTheme: const DividerThemeData(
         color: Color(0xFFEEEEF5),
         thickness: 1,

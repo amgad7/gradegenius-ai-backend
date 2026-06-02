@@ -1,4 +1,3 @@
-/// Exception thrown when server returns an error response
 class ServerException implements Exception {
   final String? message;
   final int? statusCode;
@@ -10,7 +9,6 @@ class ServerException implements Exception {
       'ServerException(message: $message, statusCode: $statusCode)';
 }
 
-/// Exception thrown when cache operations fail
 class CacheException implements Exception {
   final String? message;
 

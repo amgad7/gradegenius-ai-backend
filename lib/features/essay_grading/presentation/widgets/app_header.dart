@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 
-/// App header with hamburger menu, title, and user avatar
 class AppHeader extends StatelessWidget {
   const AppHeader({super.key});
 
@@ -10,7 +9,6 @@ class AppHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Hamburger menu
         GestureDetector(
           onTap: () => Scaffold.of(context).openDrawer(),
           child: Container(
@@ -36,7 +34,6 @@ class AppHeader extends StatelessWidget {
 
         const SizedBox(width: 12),
 
-        // App name
         Text(
           AppStrings.appName,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -47,7 +44,6 @@ class AppHeader extends StatelessWidget {
 
         const Spacer(),
 
-        // User avatar
         Container(
           width: 40,
           height: 40,

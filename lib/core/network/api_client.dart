@@ -1,18 +1,15 @@
 import 'package:dio/dio.dart';
 import '../constants/app_constants.dart';
 
-/// Dio HTTP client configured for the AI API
 class ApiClient {
   static Dio? _dio;
   static Dio? _customDio;
 
-  /// Singleton Dio instance for Gemini API
   static Dio get instance {
     _dio ??= _createDio();
     return _dio!;
   }
 
-  /// Singleton Dio instance for our Custom NLP Python Backend
   static Dio get customInstance {
     _customDio ??= _createCustomDio();
     return _customDio!;
@@ -34,7 +31,6 @@ class ApiClient {
       ),
     );
 
-    // Logging interceptor (debug only)
     dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
@@ -43,7 +39,6 @@ class ApiClient {
       ),
     );
 
-    // Add API key query parameter interceptor
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
         options.queryParameters['key'] = AppConstants.geminiApiKey;
@@ -54,7 +49,6 @@ class ApiClient {
     return dio;
   }
 
-  /// Creates a Dio instance pointing to our Python NLP backend
   static Dio _createCustomDio() {
     final dio = Dio(
       BaseOptions(
@@ -76,7 +70,6 @@ class ApiClient {
     return dio;
   }
 
-  /// Reset the Dio instance (useful for testing)
   static void reset() {
     _dio?.close();
     _customDio?.close();

@@ -3,7 +3,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../domain/entities/essay_result.dart';
 
-/// Card showing misspelled words and their corrections.
 class SpellingCorrectionsCard extends StatelessWidget {
   final List<SpellingError> errors;
 

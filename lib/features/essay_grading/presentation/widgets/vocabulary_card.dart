@@ -3,7 +3,6 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../domain/entities/essay_result.dart';
 
-/// Card showing simple vocabulary improvement suggestions.
 class VocabularyCard extends StatelessWidget {
   final List<VocabSuggestion> suggestions;
 

@@ -5,8 +5,6 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../widgets/animated_progress_bar.dart';
 
-/// Splash screen with gradient background, app logo, and progress animation
-/// Auto-navigates to home after a delay
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -39,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen>
 
     _fadeController.forward();
 
-    // Navigate to home after splash duration
     Future.delayed(
       const Duration(milliseconds: AppConstants.splashDurationMs),
       () {
@@ -74,7 +71,6 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 const Spacer(flex: 3),
 
-                // App icon in white circle
                 Container(
                   width: 100,
                   height: 100,
@@ -120,7 +116,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 32),
 
-                // App name
                 Text(
                   AppStrings.appName,
                   style: GoogleFonts.inter(
@@ -132,7 +127,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 8),
 
-                // Tagline
                 Text(
                   AppStrings.appTagline,
                   style: GoogleFonts.inter(
@@ -145,7 +139,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 4),
 
-                // Powered by
                 Text(
                   AppStrings.appPowered,
                   style: GoogleFonts.inter(
@@ -158,7 +151,6 @@ class _SplashScreenState extends State<SplashScreen>
 
                 const SizedBox(height: 40),
 
-                // Progress bar
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 80),
                   child: AnimatedProgressBar(height: 5),

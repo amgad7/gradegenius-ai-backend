@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/essay_history_item.dart';
 
-/// History essay card shown in the history screen
-/// Displays category tag, title, preview, score, and date
 class HistoryEssayCard extends StatelessWidget {
   final EssayHistoryItem item;
   final VoidCallback? onTap;
@@ -40,12 +38,10 @@ class HistoryEssayCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Left side: category, title, preview, date
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Category tag
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -67,7 +63,6 @@ class HistoryEssayCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
 
-                  // Title
                   Text(
                     item.title,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -80,7 +75,6 @@ class HistoryEssayCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
 
-                  // Preview
                   Text(
                     item.essayPreview,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -92,7 +86,6 @@ class HistoryEssayCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
 
-                  // Date
                   Row(
                     children: [
                       Icon(
@@ -113,7 +106,6 @@ class HistoryEssayCard extends StatelessWidget {
               ),
             ),
 
-            // Right side: score
             const SizedBox(width: 16),
             Column(
               children: [

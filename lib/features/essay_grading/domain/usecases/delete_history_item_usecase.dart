@@ -3,7 +3,6 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/essay_repository.dart';
 
-/// Use case: Delete a specific essay from history
 class DeleteHistoryItemUseCase extends UseCase<void, String> {
   final EssayRepository repository;
 

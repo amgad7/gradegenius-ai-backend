@@ -2,8 +2,6 @@ import '../../domain/entities/essay_history_item.dart';
 import '../../domain/entities/essay_result.dart';
 import 'essay_response_model.dart';
 
-/// Data model for essay history persistence
-/// Handles JSON serialization for SharedPreferences storage
 class EssayHistoryModel extends EssayHistoryItem {
   const EssayHistoryModel({
     required super.id,
@@ -16,7 +14,6 @@ class EssayHistoryModel extends EssayHistoryItem {
     required super.result,
   });
 
-  /// Create from a grading result + original essay text
   factory EssayHistoryModel.fromResult({
     required String id,
     required String essayText,
@@ -36,7 +33,6 @@ class EssayHistoryModel extends EssayHistoryItem {
     );
   }
 
-  /// Parse from JSON (loaded from SharedPreferences)
   factory EssayHistoryModel.fromJson(Map<String, dynamic> json) {
     return EssayHistoryModel(
       id: json['id'] as String,
@@ -52,7 +48,6 @@ class EssayHistoryModel extends EssayHistoryItem {
     );
   }
 
-  /// Serialize to JSON for SharedPreferences storage
   Map<String, dynamic> toJson() {
     final resultModel = result is EssayResponseModel
         ? (result as EssayResponseModel)

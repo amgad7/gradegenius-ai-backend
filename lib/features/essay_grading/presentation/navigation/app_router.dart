@@ -5,9 +5,7 @@ import '../screens/analyzing_screen.dart';
 import '../screens/result_screen.dart';
 import '../screens/history_screen.dart';
 
-/// Centralized routing configuration
 class AppRouter {
-  /// Generate routes based on the requested route name
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -32,7 +30,6 @@ class AppRouter {
     }
   }
 
-  /// Fade transition for smoother screen changes
   static PageRouteBuilder _fadeRoute(Widget screen) {
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) => screen,
@@ -43,7 +40,6 @@ class AppRouter {
     );
   }
 
-  /// Slide up transition for history screen
   static PageRouteBuilder _slideUpRoute(Widget screen) {
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) => screen,

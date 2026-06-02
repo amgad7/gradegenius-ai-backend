@@ -12,8 +12,6 @@ import '../models/essay_history_model.dart';
 import '../models/essay_request_model.dart';
 import '../models/essay_response_model.dart';
 
-/// Implementation of [EssayRepository]
-/// Coordinates between remote and local data sources
 class EssayRepositoryImpl implements EssayRepository {
   final EssayRemoteDataSource remoteDataSource;
   final EssayLocalDataSource localDataSource;
@@ -30,16 +28,13 @@ class EssayRepositoryImpl implements EssayRepository {
       final request = EssayRequestModel(essayText: essay.text);
       final stopwatch = Stopwatch()..start();
 
-      // Call the API (or mock)
       final response = await remoteDataSource.submitEssay(request);
 
       stopwatch.stop();
       final analysisTime = stopwatch.elapsedMilliseconds / 1000.0;
 
-      // Update result with actual analysis time
       final resultWithTime = response.copyWithTime(analysisTime);
 
-      // Cache the result in local history
       try {
         final historyItem = EssayHistoryModel.fromResult(
           id: _uuid.v4(),
@@ -48,7 +43,6 @@ class EssayRepositoryImpl implements EssayRepository {
         );
         await localDataSource.cacheResult(historyItem);
       } catch (_) {
-        // Don't fail the submission if caching fails
       }
 
       return Right(resultWithTime);

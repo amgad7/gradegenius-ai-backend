@@ -1,13 +1,10 @@
-/// All user-facing strings used throughout the app
 class AppStrings {
   AppStrings._();
 
-  // === App Identity ===
   static const String appName = 'Essay Grader AI';
   static const String appTagline = 'THE LUCID SCHOLAR';
   static const String appPowered = 'POWERED BY ADVANCED ANALYTICS';
 
-  // === Home Screen ===
   static const String submitTitle = 'Submit Your Essay';
   static const String submitSubtitle =
       'Experience the clarity of AI-driven academic feedback. Paste your text below to begin a comprehensive editorial analysis.';
@@ -17,7 +14,6 @@ class AppStrings {
   static const String uploadDocument = 'Upload Document';
   static const String analysisSettings = 'Analysis Settings';
 
-  // === What We Analyze ===
   static const String whatWeAnalyze = 'What we analyze';
   static const String structureTitle = 'Structure & Flow';
   static const String structureDesc =
@@ -29,7 +25,6 @@ class AppStrings {
   static const String argumentDesc =
       'AI-powered insights into the strength of your thesis and supporting evidence.';
 
-  // === Analyzing Screen ===
   static const String aiActive = 'AI ACTIVE';
   static const String analyzingTitle = 'Analyzing your essay...';
   static const String analyzingSubtitle =
@@ -38,7 +33,6 @@ class AppStrings {
   static const String evaluatingFlow = 'Evaluating Flow';
   static const String verifyingTone = 'Verifying Tone';
 
-  // === Results Screen ===
   static const String analysisComplete = 'Analysis';
   static const String completeWord = 'Complete.';
   static const String resultSubtitle = 'Here is a short correction summary.';
@@ -58,7 +52,6 @@ class AppStrings {
   static const String insteadOf = 'WORD';
   static const String tryWord = 'BETTER';
 
-  // === History Screen ===
   static const String historyTitle = 'Your Essays';
   static const String historySubtitle =
       'Review your scholarly progress and previous AI evaluations.';
@@ -67,11 +60,9 @@ class AppStrings {
   static const String noHistorySubtitle =
       'Submit your first essay to see it appear here.';
 
-  // === Navigation ===
   static const String navHome = 'Home';
   static const String navHistory = 'History';
 
-  // === Errors ===
   static const String errorGeneric = 'Something went wrong. Please try again.';
   static const String errorNetwork =
       'No internet connection. Please check your network.';

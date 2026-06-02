@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 
-/// Animated gradient progress bar (purple → blue)
-/// Used in splash screen and analyzing screen
 class AnimatedProgressBar extends StatefulWidget {
-  /// If null, shows indeterminate animation
   final double? progress;
 
-  /// Height of the progress bar
   final double height;
 
   const AnimatedProgressBar({
@@ -42,7 +38,6 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
   @override
   Widget build(BuildContext context) {
     if (widget.progress != null) {
-      // Determinate progress bar
       return Container(
         height: widget.height,
         width: double.infinity,
@@ -63,7 +58,6 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
       );
     }
 
-    // Indeterminate progress bar
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {

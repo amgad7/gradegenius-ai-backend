@@ -4,8 +4,6 @@ import '../../domain/usecases/get_history_usecase.dart';
 import '../../domain/usecases/delete_history_item_usecase.dart';
 import 'history_state.dart';
 
-/// Cubit managing essay history
-/// Handles loading, refreshing, and deleting history items
 class HistoryCubit extends Cubit<HistoryState> {
   final GetHistoryUseCase getHistoryUseCase;
   final DeleteHistoryItemUseCase deleteHistoryItemUseCase;
@@ -15,7 +13,6 @@ class HistoryCubit extends Cubit<HistoryState> {
     required this.deleteHistoryItemUseCase,
   }) : super(const HistoryInitial());
 
-  /// Load all history items from local storage
   Future<void> loadHistory() async {
     emit(const HistoryLoading());
 
@@ -27,7 +24,6 @@ class HistoryCubit extends Cubit<HistoryState> {
     );
   }
 
-  /// Delete a specific history item and refresh the list
   Future<void> deleteItem(String id) async {
     final result = await deleteHistoryItemUseCase(id);
 

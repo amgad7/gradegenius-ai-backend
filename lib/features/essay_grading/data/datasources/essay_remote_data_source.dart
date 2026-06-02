@@ -7,24 +7,16 @@ import '../models/essay_response_model.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/api_endpoints.dart';
 
-/// Remote data source for essay grading
-/// Currently uses a MOCK implementation
-/// Switch to real OpenAI API by uncommenting the real implementation
 abstract class EssayRemoteDataSource {
-  /// Submit an essay for AI grading
   Future<EssayResponseModel> submitEssay(EssayRequestModel request);
 }
 
-/// MOCK implementation that returns realistic fake responses
-/// Replace with [EssayRemoteDataSourceReal] when API key is available
 class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
   @override
   Future<EssayResponseModel> submitEssay(EssayRequestModel request) async {
-    // Simulate network delay (1.5 - 3 seconds)
     final delay = 1500 + Random().nextInt(1500);
     await Future.delayed(Duration(milliseconds: delay));
 
-    // Simulate occasional errors (5% chance)
     if (Random().nextInt(20) == 0) {
       throw const ServerException(
         message: 'API rate limit exceeded. Please try again later.',
@@ -34,13 +26,10 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
 
     final essayText = request.essayText;
 
-    // Generate a realistic score based on essay length and complexity
     final baseScore = _calculateBaseScore(essayText);
 
-    // Detect category based on keywords
     final category = _detectCategory(essayText);
 
-    // Generate a title
     final title = _generateTitle(essayText);
 
     return EssayResponseModel(
@@ -74,7 +63,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
         text.replaceAll(RegExp(r'\s+'), '').length /
         (wordCount > 0 ? wordCount : 1);
 
-    // More words, longer words, more sentences = higher score
     double score = 5.0;
     if (wordCount > 100) score += 1.0;
     if (wordCount > 200) score += 0.5;
@@ -84,7 +72,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
     if (sentenceCount > 5) score += 0.5;
     if (sentenceCount > 10) score += 0.5;
 
-    // Add some randomness
     score += (Random().nextDouble() * 1.0) - 0.5;
 
     return double.parse(score.clamp(3.0, 9.8).toStringAsFixed(1));
@@ -128,7 +115,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
     final words = text.split(RegExp(r'\s+'));
     if (words.length < 5) return 'Short Essay Analysis';
 
-    // Take first meaningful words and capitalize
     final titleWords = words
         .where(
           (w) =>
@@ -158,7 +144,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
     String spellingFeedback = '';
     List<String> errors = [];
 
-    // Hardcoded spelling detection for presentation purposes
     final lowerText = text.toLowerCase();
     if (lowerText.contains('importent'))
       errors.add("'importent' should be 'important'");
@@ -252,10 +237,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
   }
 }
 
-// ============================================================
-// CUSTOM NLP MODEL IMPLEMENTATION  ← الموديل بتاعنا
-// Calls our Python FastAPI backend at localhost:8000
-// ============================================================
 class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   final Dio dio;
   final EssayRemoteDataSourceMock _mockFallback = EssayRemoteDataSourceMock();
@@ -276,19 +257,13 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
         );
       }
     } on DioException catch (_) {
-      // Server not reachable → fall back to mock silently
     } catch (_) {
-      // Any error → fall back to mock silently
     }
 
-    // Fallback to mock if server is not running
     return _mockFallback.submitEssay(request);
   }
 }
 
-// ============================================================
-// GEMINI API IMPLEMENTATION (kept for reference)
-// ============================================================
 class EssayRemoteDataSourceGemini implements EssayRemoteDataSource {
   final Dio dio;
   final EssayRemoteDataSourceMock _mockFallback = EssayRemoteDataSourceMock();
@@ -297,7 +272,6 @@ class EssayRemoteDataSourceGemini implements EssayRemoteDataSource {
 
   @override
   Future<EssayResponseModel> submitEssay(EssayRequestModel request) async {
-    // Try up to 2 times (with a delay between retries)
     for (int attempt = 0; attempt < 2; attempt++) {
       try {
         final response = await dio.post(
@@ -306,13 +280,11 @@ class EssayRemoteDataSourceGemini implements EssayRemoteDataSource {
         );
 
         if (response.statusCode == 200) {
-          // Gemini response structure parsing
           final candidates = response.data['candidates'] as List<dynamic>?;
           if (candidates != null && candidates.isNotEmpty) {
             final content =
                 candidates[0]['content']['parts'][0]['text'] as String;
 
-            // Clean up the response if Gemini wraps it in ```json ... ```
             String cleanContent = content.trim();
             if (cleanContent.startsWith('```json')) {
               cleanContent = cleanContent.substring(7);
@@ -330,19 +302,16 @@ class EssayRemoteDataSourceGemini implements EssayRemoteDataSource {
           }
         }
       } on DioException catch (e) {
-        // If 429 (rate limit) on first attempt, wait 4 seconds and retry
         if (e.response?.statusCode == 429 && attempt == 0) {
           await Future.delayed(const Duration(seconds: 4));
           continue; // retry
         }
-        // On second attempt or other errors, fall through to fallback
         break;
       } catch (_) {
         break;
       }
     }
 
-    // Fallback to Mock silently - the app NEVER crashes!
     return _mockFallback.submitEssay(request);
   }
 }

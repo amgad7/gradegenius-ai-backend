@@ -17,8 +17,6 @@ import '../widgets/essay_input_field.dart';
 import '../widgets/analyze_button.dart';
 import '../widgets/feature_card.dart';
 
-/// Home screen with essay input, analyze button, and feature cards
-/// Listens to EssayCubit and navigates to analyzing/result screens
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -48,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.of(context).pushNamed('/analyzing');
         } else if (state is EssaySuccess && _isAnalyzingRouteOpen) {
           _isAnalyzingRouteOpen = false;
-          // Pop the analyzing screen and push result
           Navigator.of(context).pushReplacementNamed('/result');
         } else if (state is EssayError) {
           if (_isAnalyzingRouteOpen && Navigator.of(context).canPop()) {
@@ -83,21 +80,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   const AppHeader(),
                   const SizedBox(height: 32),
 
-                  // Title
                   Text(
                     AppStrings.submitTitle,
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                   const SizedBox(height: 8),
 
-                  // Subtitle
                   Text(
                     AppStrings.submitSubtitle,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 24),
 
-                  // Essay input
                   EssayInputField(
                     controller: _textController,
                     onChanged: (text) {
@@ -106,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Action buttons row
                   Row(
                     children: [
                       _ActionChip(
@@ -124,18 +117,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Analyze button
                   AnalyzeButton(isEnabled: _canSubmit, onPressed: _submitEssay),
                   const SizedBox(height: 40),
 
-                  // "What we analyze" section
                   Text(
                     AppStrings.whatWeAnalyze,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 16),
 
-                  // Feature cards
                   const FeatureCard(
                     icon: Icons.dashboard_rounded,
                     iconBgColor: AppColors.coherenceIconBg,
@@ -200,21 +190,17 @@ class _HomeScreenState extends State<HomeScreen> {
       String contents = '';
 
       if (extension == 'pdf') {
-        // Extract text from PDF using Syncfusion
         final bytes = await File(file.path).readAsBytes();
         final PdfDocument document = PdfDocument(inputBytes: bytes);
         final PdfTextExtractor extractor = PdfTextExtractor(document);
         contents = extractor.extractText();
         document.dispose();
       } else if (extension == 'docx') {
-        // Extract text from DOCX
         final bytes = await File(file.path).readAsBytes();
         contents = docxToText(bytes);
       } else if (extension == 'txt') {
-        // Plain text file
         contents = await file.readAsString();
       } else {
-        // Unsupported format
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -258,7 +244,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-/// Small action chip button (Upload Document / Analysis Settings)
 class _ActionChip extends StatelessWidget {
   final IconData icon;
   final String label;

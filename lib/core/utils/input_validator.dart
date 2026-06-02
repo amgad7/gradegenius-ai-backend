@@ -3,11 +3,7 @@ import '../error/failures.dart';
 import '../constants/app_constants.dart';
 import '../constants/app_strings.dart';
 
-/// Validates essay input before submission
 class InputValidator {
-  /// Validates the essay text
-  /// Returns [Right] with the trimmed text if valid
-  /// Returns [Left] with a [ValidationFailure] if invalid
   Either<Failure, String> validateEssay(String? text) {
     if (text == null || text.trim().isEmpty) {
       return const Left(ValidationFailure(AppStrings.errorEmpty));
@@ -22,7 +18,6 @@ class InputValidator {
     return Right(trimmed);
   }
 
-  /// Counts the number of words in the text
   static int wordCount(String text) {
     if (text.trim().isEmpty) return 0;
     return text

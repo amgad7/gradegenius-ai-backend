@@ -6,8 +6,6 @@ import '../entities/essay.dart';
 import '../entities/essay_result.dart';
 import '../repositories/essay_repository.dart';
 
-/// Use case: Submit an essay for AI grading
-/// Validates input first, then delegates to the repository
 class SubmitEssayUseCase extends UseCase<EssayResult, SubmitEssayParams> {
   final EssayRepository repository;
   final InputValidator validator;
@@ -19,7 +17,6 @@ class SubmitEssayUseCase extends UseCase<EssayResult, SubmitEssayParams> {
 
   @override
   Future<Either<Failure, EssayResult>> call(SubmitEssayParams params) async {
-    // Validate the essay text first
     final validationResult = validator.validateEssay(params.text);
 
     return validationResult.fold(
@@ -32,7 +29,6 @@ class SubmitEssayUseCase extends UseCase<EssayResult, SubmitEssayParams> {
   }
 }
 
-/// Parameters for [SubmitEssayUseCase]
 class SubmitEssayParams {
   final String text;
 

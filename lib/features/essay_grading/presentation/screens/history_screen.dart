@@ -11,7 +11,6 @@ import '../widgets/app_drawer.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/history_essay_card.dart';
 
-/// History screen showing previously analyzed essays
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
@@ -36,7 +35,6 @@ class _HistoryScreenContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
               child: const AppHeader(),
@@ -44,7 +42,6 @@ class _HistoryScreenContent extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Title
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
@@ -63,7 +60,6 @@ class _HistoryScreenContent extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // History list
             Expanded(
               child: BlocBuilder<HistoryCubit, HistoryState>(
                 builder: (context, state) {
@@ -156,7 +152,6 @@ class _HistoryScreenContent extends StatelessWidget {
                           child: HistoryEssayCard(
                             item: item,
                             onTap: () {
-                              // Navigate to result screen with this item's result
                               context.read<EssayCubit>().showResult(
                                 item.result,
                               );

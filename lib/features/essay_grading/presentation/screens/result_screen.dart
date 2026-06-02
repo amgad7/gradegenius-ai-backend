@@ -11,8 +11,6 @@ import '../widgets/score_circle.dart';
 import '../widgets/feedback_card.dart';
 import '../widgets/vocabulary_card.dart';
 
-/// Result screen showing the AI grading results
-/// Displays score, grammar, coherence, vocabulary, and semantics feedback
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
 
@@ -21,7 +19,6 @@ class ResultScreen extends StatelessWidget {
     return BlocBuilder<EssayCubit, EssayState>(
       builder: (context, state) {
         if (state is! EssaySuccess) {
-          // Should not happen, but handle gracefully
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
@@ -49,7 +46,6 @@ class ResultScreen extends StatelessWidget {
                     const AppHeader(),
                     const SizedBox(height: 32),
 
-                    // "Analysis Complete." title
                     RichText(
                       text: TextSpan(
                         children: [
@@ -67,18 +63,15 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
 
-                    // Subtitle
                     Text(
                       AppStrings.resultSubtitle,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(height: 32),
 
-                    // Score circle
                     Center(child: ScoreCircle(score: result.score)),
                     const SizedBox(height: 32),
 
-                    // Grammar feedback card
                     FeedbackCard(
                       icon: Icons.spellcheck_rounded,
                       iconBgColor: AppColors.grammarIconBg,
@@ -90,7 +83,6 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Coherence feedback card
                     FeedbackCard(
                       icon: Icons.account_tree_rounded,
                       iconBgColor: AppColors.coherenceIconBg,
@@ -102,14 +94,12 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Vocabulary suggestions
                     if (result.vocabSuggestions.isNotEmpty)
                       VocabularyCard(suggestions: result.vocabSuggestions),
 
                     if (result.vocabSuggestions.isNotEmpty)
                       const SizedBox(height: 16),
 
-                    // Semantics feedback card
                     FeedbackCard(
                       icon: Icons.psychology_rounded,
                       iconBgColor: AppColors.semanticsIconBg,
@@ -121,7 +111,6 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 32),
 
-                    // "Try Another Essay" button
                     Center(
                       child: SizedBox(
                         width: double.infinity,
@@ -156,7 +145,6 @@ class ResultScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Evaluation time footer
                     Center(
                       child: Text(
                         '${AppStrings.evaluationTime} ${result.analysisTimeSeconds.toStringAsFixed(1)} seconds ${AppStrings.usingModel}',

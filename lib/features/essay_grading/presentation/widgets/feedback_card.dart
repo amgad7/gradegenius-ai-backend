@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 
-/// Feedback card for displaying grammar/coherence/semantics analysis
-/// Shows icon, title, feedback text, and a status line
 class FeedbackCard extends StatelessWidget {
   final IconData icon;
   final Color iconBgColor;
@@ -44,7 +42,6 @@ class FeedbackCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              // Icon
               Container(
                 width: 44,
                 height: 44,
@@ -56,7 +53,6 @@ class FeedbackCard extends StatelessWidget {
               ),
               const SizedBox(width: 14),
 
-              // Title
               Expanded(
                 child: Text(
                   title,
@@ -70,7 +66,6 @@ class FeedbackCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
 
-          // Feedback text
           Text(
             feedback,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -80,7 +75,6 @@ class FeedbackCard extends StatelessWidget {
           ),
           const SizedBox(height: 14),
 
-          // Status line
           Row(
             children: [
               Icon(

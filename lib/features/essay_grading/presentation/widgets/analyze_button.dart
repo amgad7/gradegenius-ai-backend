@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 
-/// Gradient "Analyze Essay" button.
 class AnalyzeButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isEnabled;
