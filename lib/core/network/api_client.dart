@@ -25,9 +25,7 @@ class ApiClient {
         receiveTimeout: const Duration(
           milliseconds: AppConstants.receiveTimeoutMs,
         ),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json'},
       ),
     );
 
@@ -39,12 +37,14 @@ class ApiClient {
       ),
     );
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        options.queryParameters['key'] = AppConstants.geminiApiKey;
-        return handler.next(options);
-      },
-    ));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.queryParameters['key'] = AppConstants.geminiApiKey;
+          return handler.next(options);
+        },
+      ),
+    );
 
     return dio;
   }
@@ -53,8 +53,12 @@ class ApiClient {
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConstants.customBackendUrl,
-        connectTimeout: const Duration(milliseconds: 10000),
-        receiveTimeout: const Duration(milliseconds: 30000),
+        connectTimeout: const Duration(
+          milliseconds: AppConstants.connectTimeoutMs,
+        ),
+        receiveTimeout: const Duration(
+          milliseconds: AppConstants.receiveTimeoutMs,
+        ),
         headers: {'Content-Type': 'application/json'},
       ),
     );

@@ -239,7 +239,6 @@ class EssayRemoteDataSourceMock implements EssayRemoteDataSource {
 
 class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   final Dio dio;
-  final EssayRemoteDataSourceMock _mockFallback = EssayRemoteDataSourceMock();
 
   EssayRemoteDataSourceCustom({required this.dio});
 
@@ -247,20 +246,120 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   Future<EssayResponseModel> submitEssay(EssayRequestModel request) async {
     try {
       final response = await dio.post(
-        '/grade',
-        data: {'essay_text': request.essayText},
+        '/gradio_api/call/run_analysis',
+        data: {
+          'data': [request.essayText],
+        },
       );
 
-      if (response.statusCode == 200) {
-        return EssayResponseModel.fromJson(
-          response.data as Map<String, dynamic>,
+      final responseData = response.data as Map<String, dynamic>;
+      final eventId = responseData['event_id']?.toString();
+      if (eventId == null || eventId.isEmpty) {
+        throw const ServerException(
+          message: 'NLP model did not return a Gradio event id.',
         );
       }
-    } on DioException catch (_) {
-    } catch (_) {
+
+      final resultResponse = await dio.get(
+        '/gradio_api/call/run_analysis/$eventId',
+        options: Options(responseType: ResponseType.plain),
+      );
+
+      final gradioData = _parseGradioEventData(
+        resultResponse.data?.toString() ?? '',
+      );
+
+      return _mapGradioResult(gradioData);
+    } on DioException catch (e) {
+      throw ServerException(
+        message: 'Could not reach Menna NLP model: ${e.message}',
+        statusCode: e.response?.statusCode,
+      );
+    } on ServerException {
+      rethrow;
+    } catch (e) {
+      throw ServerException(message: 'Could not parse NLP model result: $e');
+    }
+  }
+
+  List<dynamic> _parseGradioEventData(String eventBody) {
+    final lines = eventBody.split('\n');
+    for (final line in lines) {
+      final trimmed = line.trim();
+      if (trimmed.startsWith('data:')) {
+        final jsonText = trimmed.substring('data:'.length).trim();
+        return json.decode(jsonText) as List<dynamic>;
+      }
     }
 
-    return _mockFallback.submitEssay(request);
+    throw const ServerException(
+      message: 'NLP model response did not contain Gradio data.',
+    );
+  }
+
+  EssayResponseModel _mapGradioResult(List<dynamic> data) {
+    dynamic at(int index) => data.length > index ? data[index] : null;
+
+    final grammarStatus = at(0)?.toString() ?? 'Grammar analysis complete';
+    final grammarErrors = at(1) is List ? at(1) as List<dynamic> : <dynamic>[];
+    final spellingErrorsRaw = at(2) is List
+        ? at(2) as List<dynamic>
+        : <dynamic>[];
+    final coherencePercent = _asDouble(at(3));
+
+    final spellingErrors = spellingErrorsRaw
+        .whereType<Map>()
+        .map((item) {
+          final wrong = (item['wrong_word'] ?? item['wrong'])?.toString() ?? '';
+          final correction =
+              (item['suggestion'] ?? item['correction'])?.toString() ?? '';
+          return SpellingError(wrong: wrong, correction: correction);
+        })
+        .where((error) => error.wrong.isNotEmpty && error.correction.isNotEmpty)
+        .toList();
+
+    final grammarMessages = grammarErrors
+        .whereType<Map>()
+        .map((item) => item['message']?.toString() ?? '')
+        .where((message) => message.isNotEmpty)
+        .toList();
+
+    final grammar = spellingErrors.isEmpty
+        ? 'No spelling mistakes found.'
+        : spellingErrors
+              .map((error) => '${error.wrong} -> ${error.correction}')
+              .join('; ');
+
+    final score = double.parse(
+      (coherencePercent / 10).clamp(0.0, 10.0).toStringAsFixed(1),
+    );
+
+    return EssayResponseModel(
+      score: score,
+      grammar: grammarMessages.isEmpty
+          ? grammar
+          : '$grammar ${grammarMessages.join(' ')}',
+      coherence:
+          'Sentence coherence score: ${coherencePercent.toStringAsFixed(1)}%.',
+      vocabulary: 'This model focuses on grammar, spelling, and coherence.',
+      semantics: 'The text was analyzed by the NLP grammar model.',
+      category: 'OTHER',
+      title: 'NLP Grammar Analysis',
+      grammarStatus: grammarStatus,
+      coherenceStatus: coherencePercent >= 70
+          ? 'Coherence is strong'
+          : coherencePercent >= 40
+          ? 'Coherence could be improved'
+          : 'Coherence needs improvement',
+      vocabSuggestions: const [],
+      spellingErrors: spellingErrors,
+      analysisTimeSeconds: 0.0,
+    );
+  }
+
+  double _asDouble(dynamic value) {
+    if (value is num) return value.toDouble();
+    return double.tryParse(value?.toString() ?? '') ?? 0.0;
   }
 }
 

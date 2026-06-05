@@ -9,7 +9,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/score_circle.dart';
 import '../widgets/feedback_card.dart';
-import '../widgets/vocabulary_card.dart';
+import '../widgets/spelling_corrections_card.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
@@ -25,11 +25,6 @@ class ResultScreen extends StatelessWidget {
         }
 
         final result = state.result;
-        final grammarFeedback = result.spellingErrors.isEmpty
-            ? AppStrings.noSpellingErrors
-            : result.spellingErrors
-                  .map((error) => '"${error.wrong}" -> "${error.correction}"')
-                  .join('\n');
 
         return Scaffold(
           backgroundColor: AppColors.background,
@@ -76,40 +71,26 @@ class ResultScreen extends StatelessWidget {
                       icon: Icons.spellcheck_rounded,
                       iconBgColor: AppColors.grammarIconBg,
                       iconColor: AppColors.primaryPurple,
-                      title: AppStrings.grammarFeedback,
-                      feedback: grammarFeedback,
-                      statusText: result.grammarStatus,
-                      statusIcon: Icons.check_circle_outline,
+                      title: 'Grammar Status',
+                      feedback: result.grammarStatus,
+                      statusText: AppStrings.usingModel,
+                      statusIcon: Icons.psychology_rounded,
                     ),
+                    const SizedBox(height: 16),
+
+                    SpellingCorrectionsCard(errors: result.spellingErrors),
                     const SizedBox(height: 16),
 
                     FeedbackCard(
                       icon: Icons.account_tree_rounded,
                       iconBgColor: AppColors.coherenceIconBg,
                       iconColor: AppColors.primaryBlue,
-                      title: AppStrings.coherenceFeedback,
+                      title: 'Coherence Result',
                       feedback: result.coherence,
                       statusText: result.coherenceStatus,
                       statusIcon: Icons.check_circle_outline,
                     ),
                     const SizedBox(height: 16),
-
-                    if (result.vocabSuggestions.isNotEmpty)
-                      VocabularyCard(suggestions: result.vocabSuggestions),
-
-                    if (result.vocabSuggestions.isNotEmpty)
-                      const SizedBox(height: 16),
-
-                    FeedbackCard(
-                      icon: Icons.psychology_rounded,
-                      iconBgColor: AppColors.semanticsIconBg,
-                      iconColor: AppColors.successGreen,
-                      title: AppStrings.semanticsAnalysis,
-                      feedback: result.semantics,
-                      statusText: 'Semantic analysis complete',
-                      statusIcon: Icons.check_circle_outline,
-                    ),
-                    const SizedBox(height: 32),
 
                     Center(
                       child: SizedBox(

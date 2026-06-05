@@ -5,12 +5,12 @@ class AppStrings {
   static const String appTagline = 'THE LUCID SCHOLAR';
   static const String appPowered = 'POWERED BY ADVANCED ANALYTICS';
 
-  static const String submitTitle = 'Submit Your Essay';
+  static const String submitTitle = 'Check Your Text';
   static const String submitSubtitle =
-      'Experience the clarity of AI-driven academic feedback. Paste your text below to begin a comprehensive editorial analysis.';
-  static const String inputHint = 'Start typing your essay or paste it here...';
+      'Type a word, sentence, or essay to check grammar, spelling, and coherence.';
+  static const String inputHint = 'Type a word, sentence, or essay here...';
   static const String wordCount = 'Words';
-  static const String analyzeButton = 'Analyze Essay';
+  static const String analyzeButton = 'Analyze Text';
   static const String uploadDocument = 'Upload Document';
   static const String analysisSettings = 'Analysis Settings';
 
@@ -39,7 +39,7 @@ class AppStrings {
   static const String finalScore = 'FINAL SCORE';
   static const String topPercentage = 'AI Score';
   static const String grammarFeedback = 'Grammar Feedback';
-  static const String spellingCorrections = 'Spelling Corrections';
+  static const String spellingCorrections = 'Spelling Errors';
   static const String noSpellingErrors = 'No spelling mistakes found.';
   static const String misspelledWord = 'WRONG';
   static const String correctedWord = 'CORRECTION';
@@ -48,7 +48,7 @@ class AppStrings {
   static const String semanticsAnalysis = 'Semantics Analysis';
   static const String tryAnother = 'Try Another Essay';
   static const String evaluationTime = 'Evaluation took';
-  static const String usingModel = 'using Gemini 2.0 Flash';
+  static const String usingModel = 'using Menna NLP Grammar API';
   static const String insteadOf = 'WORD';
   static const String tryWord = 'BETTER';
 
@@ -66,8 +66,7 @@ class AppStrings {
   static const String errorGeneric = 'Something went wrong. Please try again.';
   static const String errorNetwork =
       'No internet connection. Please check your network.';
-  static const String errorMinLength =
-      'Essay must be at least 50 characters long.';
+  static const String errorMinLength = 'Please enter at least one character.';
   static const String errorEmpty = 'Please enter your essay text.';
   static const String retryButton = 'Retry';
 }

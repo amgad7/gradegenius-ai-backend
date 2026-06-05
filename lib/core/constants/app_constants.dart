@@ -1,16 +1,13 @@
-import 'package:flutter/foundation.dart';
-
 class AppConstants {
   AppConstants._();
 
-  static const int minEssayLength = 50;
+  static const int minEssayLength = 1;
 
   static const String apiBaseUrl = 'https://generativelanguage.googleapis.com';
 
   static String get customBackendUrl {
-    return 'https://gradegenius-yourname-gradegenius-backend.hf.space';
+    return 'https://menna169-nlp-grammar-api.hf.space';
   }
-
 
   static const String geminiApiKey = 'AIzaSyATJiHN8Xl0SUCxq6himAIBzUH_lY7QAb0';
 
