@@ -2,21 +2,20 @@
 
 ## What model does the app use?
 
-The current app sends essays to Menna's NLP Grammar API hosted on Hugging Face
+The current app sends text to Menna's Grammar Project hosted on Hugging Face
 Spaces:
 
-`https://menna169-nlp-grammar-api.hf.space`
+`https://menna169-grammer-project.hf.space`
 
 The backend is a Gradio API. The Flutter app calls:
 
-`POST /gradio_api/call/run_analysis`
+`POST /gradio_api/call/analyze_text`
 
 Then it reads the final event result from:
 
-`GET /gradio_api/call/run_analysis/{event_id}`
+`GET /gradio_api/call/analyze_text/{event_id}`
 
-The model returns grammar status, grammar errors, spelling errors, and
-coherence percentage.
+The model returns coherence percentage, grammar status, and spelling errors.
 
 The app does not train a local AI model. There is no local `.h5`, `.pkl`, `.pt`,
 `.onnx`, or `.tflite` model file in this project.
@@ -36,7 +35,7 @@ The model/backend integration is configured in the Flutter code here:
 
 - `lib/core/constants/app_constants.dart`
   - `customBackendUrl`
-  - Menna Hugging Face backend URL
+  - Menna Hugging Face Space URL
 
 - `lib/core/network/api_client.dart`
   - Creates `customInstance`
@@ -44,7 +43,7 @@ The model/backend integration is configured in the Flutter code here:
 
 - `lib/features/essay_grading/data/datasources/essay_remote_data_source.dart`
   - `EssayRemoteDataSourceCustom`
-  - Sends the essay to the Gradio `run_analysis` endpoint
+  - Sends the text to the Gradio `analyze_text` endpoint
   - Reads the Gradio event result
   - Maps the model output to the Flutter result model
 
@@ -59,7 +58,7 @@ If the supervisor asks for the "model file", the accurate answer is:
 
 The current Gradio API link:
 
-`https://menna169-nlp-grammar-api.hf.space`
+`https://menna169-grammer-project.hf.space`
 
 is the hosted model interface.
 
@@ -76,7 +75,6 @@ In simple words:
 The connected model analyzes:
 
 - grammar status
-- grammar errors
 - spelling errors
 - sentence coherence percentage
 
@@ -91,7 +89,7 @@ The previous FastAPI file is:
 If spelling mistakes do not appear in the app, check these points:
 
 1. Menna's Hugging Face Space must be running.
-2. The app must call the Gradio `run_analysis` endpoint successfully.
+2. The app must call the Gradio `analyze_text` endpoint successfully.
 3. The model must return spelling errors in the `Spelling Errors` output.
 
 ## What dataset is used?
@@ -151,7 +149,7 @@ Then it sends each essay to the grading API and writes:
 
 ## Short answer for discussion
 
-> The Flutter app calls Menna's NLP Grammar API hosted on Hugging Face Spaces.
-> The app sends the essay to the Gradio `run_analysis` endpoint and maps the
-> returned grammar, spelling, and coherence results to the app UI. The dataset
-> is used for evaluation, not training.
+> The Flutter app calls Menna's Grammar Project hosted on Hugging Face Spaces.
+> The app sends the text to the Gradio `analyze_text` endpoint and maps the
+> returned coherence, grammar status, and spelling errors to the app UI. The
+> dataset is used for evaluation, not training.

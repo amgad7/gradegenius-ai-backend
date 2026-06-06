@@ -6,7 +6,7 @@ class AppConstants {
   static const String apiBaseUrl = 'https://generativelanguage.googleapis.com';
 
   static String get customBackendUrl {
-    return 'https://menna169-nlp-grammar-api.hf.space';
+    return 'https://menna169-grammer-project.hf.space';
   }
 
   static const String geminiApiKey = 'AIzaSyATJiHN8Xl0SUCxq6himAIBzUH_lY7QAb0';
