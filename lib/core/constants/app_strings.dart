@@ -48,7 +48,7 @@ class AppStrings {
   static const String semanticsAnalysis = 'Semantics Analysis';
   static const String tryAnother = 'Try Another Essay';
   static const String evaluationTime = 'Evaluation took';
-  static const String usingModel = 'using Menna NLP Grammar API';
+  static const String usingModel = 'using Menna Grammar Project API';
   static const String insteadOf = 'WORD';
   static const String tryWord = 'BETTER';
 

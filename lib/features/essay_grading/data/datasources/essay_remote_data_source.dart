@@ -246,7 +246,7 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   Future<EssayResponseModel> submitEssay(EssayRequestModel request) async {
     try {
       final response = await dio.post(
-        '/gradio_api/call/run_analysis',
+        '/gradio_api/call/analyze_text',
         data: {
           'data': [request.essayText],
         },
@@ -261,7 +261,7 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
       }
 
       final resultResponse = await dio.get(
-        '/gradio_api/call/run_analysis/$eventId',
+        '/gradio_api/call/analyze_text/$eventId',
         options: Options(responseType: ResponseType.plain),
       );
 
@@ -300,29 +300,11 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   EssayResponseModel _mapGradioResult(List<dynamic> data) {
     dynamic at(int index) => data.length > index ? data[index] : null;
 
-    final grammarStatus = at(0)?.toString() ?? 'Grammar analysis complete';
-    final grammarErrors = at(1) is List ? at(1) as List<dynamic> : <dynamic>[];
-    final spellingErrorsRaw = at(2) is List
-        ? at(2) as List<dynamic>
-        : <dynamic>[];
-    final coherencePercent = _asDouble(at(3));
-
-    final spellingErrors = spellingErrorsRaw
-        .whereType<Map>()
-        .map((item) {
-          final wrong = (item['wrong_word'] ?? item['wrong'])?.toString() ?? '';
-          final correction =
-              (item['suggestion'] ?? item['correction'])?.toString() ?? '';
-          return SpellingError(wrong: wrong, correction: correction);
-        })
-        .where((error) => error.wrong.isNotEmpty && error.correction.isNotEmpty)
-        .toList();
-
-    final grammarMessages = grammarErrors
-        .whereType<Map>()
-        .map((item) => item['message']?.toString() ?? '')
-        .where((message) => message.isNotEmpty)
-        .toList();
+    final coherenceText = at(0)?.toString() ?? '0%';
+    final grammarStatus = at(1)?.toString() ?? 'Grammar analysis complete';
+    final spellingText = at(2)?.toString() ?? '';
+    final coherencePercent = _parsePercent(coherenceText);
+    final spellingErrors = _parseSpellingErrors(spellingText);
 
     final grammar = spellingErrors.isEmpty
         ? 'No spelling mistakes found.'
@@ -336,11 +318,8 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
 
     return EssayResponseModel(
       score: score,
-      grammar: grammarMessages.isEmpty
-          ? grammar
-          : '$grammar ${grammarMessages.join(' ')}',
-      coherence:
-          'Sentence coherence score: ${coherencePercent.toStringAsFixed(1)}%.',
+      grammar: grammar,
+      coherence: 'Coherence score: $coherenceText.',
       vocabulary: 'This model focuses on grammar, spelling, and coherence.',
       semantics: 'The text was analyzed by the NLP grammar model.',
       category: 'OTHER',
@@ -360,6 +339,36 @@ class EssayRemoteDataSourceCustom implements EssayRemoteDataSource {
   double _asDouble(dynamic value) {
     if (value is num) return value.toDouble();
     return double.tryParse(value?.toString() ?? '') ?? 0.0;
+  }
+
+  double _parsePercent(String value) {
+    return _asDouble(value.replaceAll('%', '').trim());
+  }
+
+  List<SpellingError> _parseSpellingErrors(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty || trimmed.toLowerCase().contains('no spelling')) {
+      return const [];
+    }
+
+    final parts = trimmed
+        .split(RegExp(r'[\n;]+'))
+        .map((part) => part.trim())
+        .where((part) => part.isNotEmpty);
+
+    final errors = <SpellingError>[];
+    for (final part in parts) {
+      final match = RegExp(r'(.+?)\s*(?:->|→)\s*(.+)').firstMatch(part);
+      if (match == null) continue;
+
+      final wrong = match.group(1)?.trim() ?? '';
+      final correction = match.group(2)?.trim() ?? '';
+      if (wrong.isNotEmpty && correction.isNotEmpty) {
+        errors.add(SpellingError(wrong: wrong, correction: correction));
+      }
+    }
+
+    return errors;
   }
 }
 
